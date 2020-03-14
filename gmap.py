@@ -35,4 +35,4 @@ def show_school(school_code):
     else:
         abort(404)
 
-app.run(host='localhost', debug=True)
+web: gunicorn app:app
