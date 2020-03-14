@@ -16,8 +16,8 @@ class School:
 
 schools = (
     School('Lumbung Inovasi','LINOV',   -8.5818619,116.0990933),
-    School('Sumbawa', 'Sumbawa',            37.8884474, -122.1155922),
-    School('JONES',   'JONES', -8.6096479,116.1049475)
+    School('San Fransisco', 'San Fransisco',            37.8884474, -122.1155922),
+    School('Cina',   'Cina', 31.7132242,120.2585658)
 )
 schools_by_key = {school.key: school for school in schools}
 
