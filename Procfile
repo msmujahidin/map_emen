@@ -1,1 +1,1 @@
-icorn app:app
+web: gunicorn run:app --reload --workers 2
