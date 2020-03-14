@@ -1,1 +1,1 @@
-web: gunicorn gmap:app --log-file -
+web: gunicorn gmap:app
