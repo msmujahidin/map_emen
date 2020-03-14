@@ -35,5 +35,5 @@ def show_school(school_code):
     else:
         abort(404)
 
-web: gunicorn gmap:app
+# web: gunicorn gmap:app
 # app.run(host='localhost', debug=True)
