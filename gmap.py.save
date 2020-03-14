@@ -16,8 +16,8 @@ class School:
 
 schools = (
     School('Lumbung Inovasi','LINOV',   -8.5818619,116.0990933),
-    School('San Fransisco', 'San Fransisco',            37.8884474, -122.1155922),
-    School('Cina',   'Cina', 31.7132242,120.2585658)
+    School('Sumbawa', 'Sumbawa',            37.8884474, -122.1155922),
+    School('JONES',   'JONES', -8.6096479,116.1049475)
 )
 schools_by_key = {school.key: school for school in schools}
 
@@ -31,14 +31,9 @@ def index():
 def show_school(school_code):
     school = schools_by_key.get(school_code)
     if school:
-        return render_template('baru.html', school=school)
+        return render_template('map.html', school=school)
     else:
         abort(404)
 
-#web: gunicorn server:app
-
-if __name__=='__main__':
-    app.run()
-
-#web: gunicorn server:app
-#app.run(host='localhost', debug=True)
+#web: gunicorn gmap:app --reload --workers 2
+#app.run('localhost', debug=True)

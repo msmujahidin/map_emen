@@ -10,12 +10,20 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3EFBDydND4MPH9KozRnasw5yocTGGSgc&libraries=places"></script>
     <script type="text/javascript">
     function initMap() {
-        new google.maps.Map(document.getElementById('map'), {
-            center: {lat: {{school.lat}}, lng: {{school.lng}}},
+        var mylatlng = {lat: {{school.lat}}, lng: {{school.lng}}}
+	 var map = new google.maps.Map(document.getElementById('map'), {
+            center: mylatlng,
             zoom: 8
           });
+     function addMarker(props){
+        var marker = new google.maps.Marker({
+          position:mylatlng,
+          map:map,
+          //icon:props.iconImage
+        });
+
     }
-    </script>
+        </script>
 </head>
 <body onload="initMap()">
 <div class="container">
