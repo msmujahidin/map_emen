@@ -1,1 +1,1 @@
-web: gunicorn gmap:app --reload --workers 2
+web: gunicorn gmap:app
