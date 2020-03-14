@@ -36,4 +36,4 @@ def show_school(school_code):
         abort(404)
 
 web: gunicorn gmap:app --reload --workers 2
-#app.run(debug=True)
+#app.run(host='localhost', debug=True)
