@@ -3,71 +3,37 @@ A Web application that shows Google Maps around schools, using
 the Flask framework, and the Google Maps API.
 '''
 
-from flask import Flask, render_template, request, jsonify
-import paho.mqtt.client as mqtt
-import random, threading, json
-
-#setting mqttnya dulu
-mqtt_username = "mqtt"
-mqtt_password = "mqtt"
-MQTT_Broker = "mqtt.danova.id"
-MQTT_Port = 1883
-#Keep_Alive_Interval = 60
-MQTT_Topic_control = "smartpju/led" 
-#from gpiozero import LEDssss
-
+from flask import Flask, render_template, abort
 app = Flask(__name__)
-mqttc = mqtt.Client()
-led_state = False;
-led_on = "1"
-led_off = "0"
-
-def on_connect(client, userdata, rc):
-    mqttc.subscribe(MQTT_Topic_control)
-
-def on_publish(client, userdata, mid):
-    	pass
-
-def on_disconnect(client, userdata, rc):
-	if rc !=0:
-		pass
-
-def on_message(client, userdata, msg):
-    data = msg.payload
-    baru = data.decode()
 
 
-mqttc.username_pw_set(mqtt_username, mqtt_password)
-mqttc.on_connect = on_connect
-mqttc.on_message = on_message
-mqttc.on_disconnect = on_disconnect
-mqttc.on_publish = on_publish
-mqttc.connect(MQTT_Broker, int(MQTT_Port))
+class School:
+    def __init__(self, key, name, lat, lng):
+        self.key  = key
+        self.name = name
+        self.lat  = lat
+        self.lng  = lng
+
+schools = (
+    School('Lumbung Inovasi','LINOV',   -8.5818619,116.0990933),
+    School('San Fransisco', 'San Fransisco',            37.8884474, -122.1155922),
+    School('Cina',   'Cina', 31.7132242,120.2585658)
+)
+schools_by_key = {school.key: school for school in schools}
 
 
-def publish_To_control(topic, message):
-    mqttc.publish(topic,message)
-    print("Published: " + str(message) + " " + "on MQTT Topic: " + str(topic))
-    print("")   
-
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template('index.html', schools=schools)
 
-@app.route('/led', methods=['POST'])
 
-def onoff():
-    global led_state
-    if led_state == False:
-        nyala = int(led_off)
-        led_state = not led_state
-        publish_To_control (MQTT_Topic_control, nyala)
-        return jsonify( status = "Mati"  )
+@app.route("/<school_code>")
+def show_school(school_code):
+    school = schools_by_key.get(school_code)
+    if school:
+        return render_template('baru.html', school=school)
     else:
-        mati = int(led_on)
-        led_state = not led_state
-        publish_To_control (MQTT_Topic_control, mati)
-        return jsonify(status = "Hidup")
+        abort(404)
 
 #web: gunicorn server:app
 
